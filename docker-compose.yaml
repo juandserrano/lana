@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:14.2-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=1234
+    restart: unless-stopped
+
+  web:
+    image: web:0.0.1
+    container_name: web
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+
+  api:
+    image: lana-api:0.0.1
+    container_name: api
+    restart: unless-stopped
