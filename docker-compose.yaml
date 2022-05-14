@@ -7,6 +7,11 @@ services:
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   web:
     image: web:0.0.1
@@ -17,7 +22,12 @@ services:
 
   api:
     image: lana-api:0.0.1
+    depends_on:
+      postgres:
+        condition: service_healthy
     container_name: api
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     restart: unless-stopped
     ports:
       - "${API_PORT}:3003"
