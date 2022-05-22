@@ -12,6 +12,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+  
+  adminer:
+    image: adminer
+    container_name: adminer
+    ports:
+      - 8080:8080
+    restart: unless-stopped
 
   web:
     image: web:0.0.1
@@ -21,7 +28,7 @@ services:
     restart: unless-stopped
 
   api:
-    image: lana-api:0.0.1
+    image: api:0.0.1
     depends_on:
       postgres:
         condition: service_healthy
